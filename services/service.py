@@ -7,7 +7,7 @@ from urllib3.exceptions import InsecureRequestWarning
 
 
 class Service:
-    user_agent = UserAgent()
+    user_agent = UserAgent(use_cache_server=True)
 
     def __init__(self, phone, country_data, sms_text='Произошёл троллинг'):
         self.phone = phone
@@ -23,7 +23,7 @@ class Service:
             self.session.get = self.get
             self.session.post = self.post
 
-        self.session.headers = {'User-Agent': 'Mozilla/5.0 (Linux; Android 11; IN2015) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.141 Mobile Safari/537.36'}
+        self.session.headers = {'User-Agent': self.generate_random_user_agent()}
         requests.packages.urllib3.disable_warnings(category=InsecureRequestWarning)
 
     @staticmethod
